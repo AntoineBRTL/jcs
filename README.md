@@ -24,10 +24,10 @@ public static class Main
 
     public static void Main()
     {
-        // test comment
         this.str = "Hello World";
         console.log(this.getStr());
 
+        // create a new Program
         new Program();
     }
 
