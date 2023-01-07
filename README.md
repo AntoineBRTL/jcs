@@ -18,54 +18,53 @@ Then you have your full code translated in js
 ## Exemple ##
 jcs-script uses the same syntax as C-Sharp : 
 ```c#
-public static class Main
+public class Program
 {
     private String str;
 
-    public static void Main()
+    public Program()
     {
         this.str = "Hello World";
-        console.log(this.getStr());
-
-        // create a new Program
-        new Program();
     }
 
-    private static void getStr()
+    public static void getStr()
     {
         return this.str;
     }
 }
 
-public class Program
+public static class Main
 {
-    public Program()
+    private Program program;
+
+    public static void Main()
     {
-        console.log("Starting my program...");
+        this.program = new Program();
+        console.log(this.program.getStr());   
     }
 }
 ```
 This code will be translated as :
 ```javascript
-class Main 
+class Program 
 { 
     str; 
-    static Main() 
+    constructor()
     { 
         this.str = "Hello World"; 
-        console.log(this.getStr()); 
-        new Program(); 
     } 
     static getStr() 
     { 
         return this.str; 
     } 
 } 
-class Program 
+class Main 
 { 
-    constructor()
+    program; 
+    static Main() 
     { 
-        console.log("Starting my program..."); 
+        this.program = new Program(); 
+        console.log(this.program.getStr());   
     } 
 } 
 Main.Main();
