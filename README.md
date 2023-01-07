@@ -41,3 +41,28 @@ public class Program
     }
 }
 ```
+This code will be translated as :
+```javascript
+class Main 
+{ 
+    str; 
+    static Main() 
+    { 
+        this.str = "Hello World"; 
+        console.log(this.getStr()); 
+        new Program(); 
+    } 
+    static getStr() 
+    { 
+        return this.str; 
+    } 
+} 
+class Program 
+{ 
+    constructor()
+    { 
+        console.log("Starting my program..."); 
+    } 
+} 
+Main.Main();
+```
