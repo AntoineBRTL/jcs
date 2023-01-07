@@ -16,7 +16,7 @@ To translate your code in javascript run the following command:
 Then you have your full code translated in js
 
 ## Exemple ##
-jcs-script use the same syntax as java : 
+jcs-script use the same syntax as csharp : 
 ```java
 public static class Main
 {
