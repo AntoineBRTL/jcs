@@ -21,12 +21,17 @@ class Compiler
             std::ifstream file;
             file.open(this->entryFilePath);
 
+            std::vector<std::string> *declaredTypes = new std::vector<std::string>();
+
             std::string *className = new std::string("");
 
             for(std::string line; std::getline(file, line);)
             {
-                bool *isClassPreDefinition = new bool(line.find("class") != std::string::npos);
                 bool *isStatic = new bool(line.find("static") != std::string::npos);
+                bool *isClassPreDefinition = new bool(line.find("class") != std::string::npos);
+                bool *isCreatingInstance = new bool(false);
+                bool *isUsingExtends = new bool(false);
+                bool *hasAccessModifiers = new bool(false);
 
                 // comments remover
                 if(int index = line.find("//")) line = line.substr(0, index);
@@ -36,58 +41,118 @@ class Compiler
                 std::string *word = new std::string("");
                 while(std::getline(iterableLine, *word, ' '))
                 {
-
-                    // ACCESS MODIFIERS
-                    if(*word == "public")
-                        // everything is public in js
-                        continue;
-
-                    if(*word == "protected")
-                        continue;
-
-                    if(*word == "private")
-                    {
-                        continue;
-                    }
-
-                    if(*word == "static" && *isClassPreDefinition)
-                        continue;
-
-                    // TYPES
-                    if(*word == "void")
-                        continue;
-                    
-                    if(*word == "int")
-                        continue;
-
-                    if(*word == "String")
-                        continue;
-
-                    if(*word == "bool")
-                        continue;
-
-                    // KEYWORDS
-                    if(*word == "class")
-                    {
-                        result += "class ";
-                        continue;
-                    }
-
-                    if(*word == "extends")
-                    {
-                        result += "extends ";
-                        continue;
-                    }
-
                     if(*isClassPreDefinition)
                     {
-                        className = new std::string(word->c_str());
-                    }
+                        // ACCESS MODIFIERS
+                        if(*word == "public")
+                            continue;
 
-                    if(word->find(*className) != std::string::npos && !*isClassPreDefinition && !*isStatic)
+                        if(*word == "protected")
+                            continue;
+
+                        if(*word == "private")
+                            continue;
+
+                        // KEYWORDS
+                        if(*word == "static")
+                            continue;
+                        
+                        if(*word == "extends")
+                        {
+                            continue;
+                            *isUsingExtends = true;
+                        }
+
+                        if(*word == "class")
+                        {
+                            result += "class ";
+                            continue;
+                        }
+                        
+                        if(!*isUsingExtends)
+                        {
+                            const char* sc = word->c_str();
+                            declaredTypes->push_back(sc);
+                            className = new std::string(sc);
+                        }
+                    }
+                    else
                     {
-                        result += "constructor()";
-                        continue;
+                        // ACCESS MODIFIERS
+                        if(*word == "public")
+                        {
+                            *hasAccessModifiers = true;
+                            continue;
+                        }
+
+                        if(*word == "protected")
+                        {
+                            *hasAccessModifiers = true;
+                            continue;
+                        }
+
+                        if(*word == "private")
+                        {
+                            *hasAccessModifiers = true;
+                            continue;
+                        }
+
+                        // TYPES
+                        if(!*isCreatingInstance)
+                        {
+                            if(*word == "void")
+                            {
+                                if(!*isStatic && !*hasAccessModifiers) result += "let ";
+                                continue;
+                            }
+                                
+                            if(*word == "int")
+                            {
+                                if(!*isStatic && !*hasAccessModifiers) result += "let ";
+                                continue;
+                            }
+
+                            if(*word == "String")
+                            {
+                                if(!*isStatic && !*hasAccessModifiers) result += "let ";
+                                continue;
+                            }
+
+                            if(*word == "bool")
+                            {
+                                if(!*isStatic && !*hasAccessModifiers) result += "let ";
+                                continue;
+                            }
+
+                            // custom types
+                            bool hasRemoveType = false;
+                            for(int i = 0; i < declaredTypes->size(); i++)
+                            {
+                                std::cout << word->find(declaredTypes->operator[](i)) << "\t" << *word << std::endl;
+                                if(*word == declaredTypes->operator[](i))
+                                {
+                                    if(!*isStatic && !*hasAccessModifiers) result += "let ";
+                                    hasRemoveType = true;
+                                    break;
+                                }
+                            }
+
+                            if(hasRemoveType) continue;
+                        }
+
+                        // KEYWORDS
+                        if(*word == "new")
+                        {
+                            *isCreatingInstance = true;
+                            result += "new ";
+                            continue;
+                        }
+
+                        if(word->find(*className) != std::string::npos && !*isClassPreDefinition && !*isStatic)
+                        {
+                            result += "constructor()";
+                            continue;
+                        }
                     }
 
                     result += *word + " ";
