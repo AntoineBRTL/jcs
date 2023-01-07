@@ -13,7 +13,7 @@ Then you have your full code translated in js
 
 # Exemple
 jcs-script use the same syntax as java : 
-java```
+```java
 public static class Main
 {
     private String str;
