@@ -27,7 +27,7 @@ public class Program
         this.str = "Hello World";
     }
 
-    public static void getStr()
+    public void getStr()
     {
         return this.str;
     }
@@ -53,7 +53,7 @@ class Program
     { 
         this.str = "Hello World"; 
     } 
-    static getStr() 
+    getStr() 
     { 
         return this.str; 
     } 
