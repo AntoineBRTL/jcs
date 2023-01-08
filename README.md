@@ -1,3 +1,5 @@
+![alt text](./icon.png)
+
 # jcs
 jcs is a transpiler for jcs-script to javascript. For now it's still and developement and isn't usable for real projects.
 You can still try it and help me finding bugs to make a stable version.
