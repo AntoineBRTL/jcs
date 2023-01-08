@@ -35,7 +35,7 @@ public class Program
 
 public static class Main
 {
-    private Program program;
+    private static Program program;
 
     public static void Main()
     {
@@ -60,7 +60,7 @@ class Program
 } 
 class Main 
 { 
-    program; 
+    static program; 
     static Main() 
     { 
         this.program = new Program(); 
