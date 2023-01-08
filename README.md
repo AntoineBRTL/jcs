@@ -1,6 +1,6 @@
 <img src="./jcsicon.png" width="70"/>
 
-# jcs
+# jcs lemon
 jcs is a transpiler for jcs-script to javascript. For now it's still and developement and isn't usable for real projects.
 You can still try it and help me finding bugs to make a stable version.
 
@@ -13,9 +13,18 @@ Don't forget to add the bin directory to the Path variable of your machine.
 ## How to use ##
 To translate your code in javascript run the following command:
 
-* `jcs myFile.jcs myFile.js`
+* ```bash
+    jcs myFile.jcs myFile.js
+    ```
 
-Then you have your full code translated in js
+Then you have your full code translated in js.
+You can run the js file using :
+
+* ```bash
+    node myFile.js
+    ```
+
+And see it fully work
 
 ## Exemple ##
 jcs-script uses the same syntax as C-Sharp : 
