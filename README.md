@@ -37,6 +37,7 @@ public static class Main
 {
     private static Program program;
 
+    // Entry
     public static void Main()
     {
         this.program = new Program();
